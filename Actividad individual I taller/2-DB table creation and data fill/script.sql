@@ -1,3 +1,14 @@
+-- CLEAR PREVIOUS DATA (The "Clean Slate" approach)
+SET FOREIGN_KEY_CHECKS = 0;
+DROP TABLE IF EXISTS Reservations;
+DROP TABLE IF EXISTS Loans;
+DROP TABLE IF EXISTS Staff;
+DROP TABLE IF EXISTS Users;
+DROP TABLE IF EXISTS Books;
+DROP TABLE IF EXISTS BookCategories;
+SET FOREIGN_KEY_CHECKS = 1;
+
+-- 1. TABLES CREATION
 CREATE TABLE BookCategories (
     CategoryID INT AUTO_INCREMENT PRIMARY KEY,
     CategoryName VARCHAR(50) NOT NULL,
@@ -51,10 +62,9 @@ CREATE TABLE Reservations (
     FOREIGN KEY (BookID) REFERENCES Books(BookID)
 );
 
--- Data insertion statements
+-- 2. DATA INSERTION (In order of dependency)
 
-INSERT INTO BookCategories (CategoryName, Description)
-VALUES 
+INSERT INTO BookCategories (CategoryName, Description) VALUES 
 ('Fiction', 'Fictional works including novels and short stories'),
 ('Non-fiction', 'Books based on real facts and events'),
 ('Science', 'Books about scientific concepts and discoveries'),
@@ -66,21 +76,20 @@ VALUES
 ('Children', 'Books aimed at young readers'),
 ('Education', 'Books used for learning and instruction');
 
-INSERT INTO Books (Title, Author, Genre, PublicationYear, AvailableCopies, CategoryID)
-VALUES 
+-- NOTE: Single quotes in titles (Harry Potter's) are escaped using two single quotes ('')
+INSERT INTO Books (Title, Author, Genre, PublicationYear, AvailableCopies, CategoryID) VALUES 
 ('To Kill a Mockingbird', 'Harper Lee', 'Fiction', 1960, 5, 1),
 ('Sapiens: A Brief History of Humankind', 'Yuval Noah Harari', 'Non-fiction', 2011, 3, 2),
 ('A Brief History of Time', 'Stephen Hawking', 'Science', 1988, 4, 3),
 ('The Innovators', 'Walter Isaacson', 'Technology', 2014, 2, 4),
 ('The Diary of a Young Girl', 'Anne Frank', 'History', 1947, 3, 5),
 ('Steve Jobs', 'Walter Isaacson', 'Biography', 2011, 4, 6),
-('Harry Potter and the Sorcerer's Stone', 'J.K. Rowling', 'Fantasy', 1997, 6, 7),
+('Harry Potter and the Sorcerer''s Stone', 'J.K. Rowling', 'Fantasy', 1997, 6, 7),
 ('The Girl with the Dragon Tattoo', 'Stieg Larsson', 'Mystery', 2005, 2, 8),
-('Charlotte's Web', 'E.B. White', 'Children', 1952, 7, 9),
+('Charlotte''s Web', 'E.B. White', 'Children', 1952, 7, 9),
 ('Introduction to Algorithms', 'Cormen et al.', 'Education', 2009, 3, 10);
 
-INSERT INTO Users (FirstName, LastName, Email, PhoneNumber)
-VALUES 
+INSERT INTO Users (FirstName, LastName, Email, PhoneNumber) VALUES 
 ('Alice', 'Johnson', 'alice.johnson@example.com', '1234567890'),
 ('Bob', 'Smith', 'bob.smith@example.com', '0987654321'),
 ('Carol', 'Davis', 'carol.davis@example.com', '1122334455'),
@@ -92,8 +101,7 @@ VALUES
 ('Ivy', 'Taylor', 'ivy.taylor@example.com', '7788990011'),
 ('Jack', 'Anderson', 'jack.anderson@example.com', '8899001122');
 
-INSERT INTO Staff (FirstName, LastName, Role, Email)
-VALUES 
+INSERT INTO Staff (FirstName, LastName, Role, Email) VALUES 
 ('Laura', 'Thompson', 'Administrator', 'laura.thompson@example.com'),
 ('Michael', 'Rodriguez', 'Librarian', 'michael.rodriguez@example.com'),
 ('Nina', 'White', 'Assistant', 'nina.white@example.com'),
@@ -105,8 +113,7 @@ VALUES
 ('Tina', 'Young', 'Librarian', 'tina.young@example.com'),
 ('Victor', 'King', 'Assistant', 'victor.king@example.com');
 
-INSERT INTO Loans (UserID, BookID, LoanDate, ReturnDate)
-VALUES 
+INSERT INTO Loans (UserID, BookID, LoanDate, ReturnDate) VALUES 
 (1, 1, '2024-11-01', NULL),
 (2, 2, '2024-11-02', '2024-11-10'),
 (3, 3, '2024-11-03', NULL),
@@ -118,8 +125,7 @@ VALUES
 (9, 9, '2024-11-09', NULL),
 (10, 10, '2024-11-10', '2024-11-18');
 
-INSERT INTO Reservations (UserID, BookID, ReservationDate, Status)
-VALUES 
+INSERT INTO Reservations (UserID, BookID, ReservationDate, Status) VALUES 
 (1, 3, '2024-11-01', 'active'),
 (2, 5, '2024-11-02', 'cancelled'),
 (3, 7, '2024-11-03', 'active'),
